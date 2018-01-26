@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Class-Path: lib/websocket-api.jar lib/tomcat-websocket.jar lib/tomcat-
+ juli.jar lib/tomcat-util.jar lib/json.jar lib/tomcat-api.jar
+Main-Class: net.soeur.qqbot.Start
+
