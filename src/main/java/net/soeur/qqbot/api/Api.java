@@ -10,6 +10,15 @@ import java.util.Map;
 public class Api {
 
     private static long uuid = 0;
+    private static Map<Long, Map<String, Object>> returnData = new HashMap<Long,  Map<String, Object>>();
+
+    public static void add(long id, Map<String, Object> data) {
+         returnData.put(id, data);
+    }
+
+    public static Map<String, Object> get(long id) {
+         return returnData.get(id);
+    }
 
     public static long run(String action, Map<String, Object> params) {
         long id = uuid ++;

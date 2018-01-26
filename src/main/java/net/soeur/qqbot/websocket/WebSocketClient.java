@@ -1,9 +1,11 @@
 package net.soeur.qqbot.websocket;
 
+import net.soeur.qqbot.api.Api;
 import net.soeur.qqbot.listen.Listener;
 import net.soeur.qqbot.message.Color;
 import net.soeur.qqbot.message.Logger;
 import org.json.JSONObject;
+import org.json.JSONPointerException;
 
 import javax.websocket.*;
 import java.io.IOException;
@@ -37,12 +39,20 @@ public class WebSocketClient {
     @OnMessage
     public synchronized void onMessage(String message){
         if (name.contains("listener"))
-        Listener.call(message);
+             Listener.call(message);
+        else if (name.contains("api")){
+             try {
+                  Map<String, Object> data = new JSONObject(message).toMap();
+                  Api.add(Long.valueOf(data.get("echo").toString()), data);
+             }catch (JSONPointerException e) {
+                  Logger.debug("收到一条错误的返回信息：" + message);
+             }
+        }
     }
 
     @OnClose
     public void onClose() throws Exception {
-        Logger.warning("Websocket closed from " + tagerUrl);
+        Logger.debug("Websocket closed from " + tagerUrl);
         Client.close(this);
     }
 
@@ -82,6 +92,10 @@ public class WebSocketClient {
 
         public static WebSocketClient getClient(String name) {
             return clients.get(name);
+        }
+
+        public static Collection<WebSocketClient> getClients() {
+             return clients.values();
         }
 
         public static void close(WebSocketClient client) throws IOException {
