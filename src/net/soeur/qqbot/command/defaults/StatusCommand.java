@@ -10,7 +10,7 @@ public class StatusCommand implements CommandReceiver {
         Runtime runtime = Runtime.getRuntime();
         long ts = System.nanoTime();
         info.append("运行环境：")
-                .append(System.getProperty("utils.name"))
+                .append(System.getProperty("os.name"))
                 .append("\n")
                 .append("虚拟机可用最大内存：")
                 .append(runtime.maxMemory() / 1024.0 / 1024.0)

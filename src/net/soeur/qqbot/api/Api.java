@@ -24,7 +24,7 @@ public class Api {
     }
 
     public static void send_private_msg(final String message, final String user_id, final boolean auto_escape) {
-        run(Util.getMethodName(), new HashMap<String, Object>(){
+        run("send_private_msg", new HashMap<String, Object>(){
             {
                 put("message", message);
                 put("user_id", user_id);

@@ -143,8 +143,7 @@ public class Listener {
                   break;
         }
 
-         Set<Listen> set = listeners.keySet();
-        for (Listen list : set) {
+        for (Listen list : listeners.keySet()) {
              if (listeners.get(list).contains(event))
                   list.onEvent(event, json.toMap());
         }
