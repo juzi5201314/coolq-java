@@ -20,6 +20,14 @@ public class Api {
          return returnData.get(id);
     }
 
+    public static Map<String, Object> mustget(long id) {
+         if (!returnData.containsKey(id))
+              while (returnData.containsKey(id)){
+
+              };
+         return get(id);
+    }
+
     public static long run(String action, Map<String, Object> params) {
         long id = uuid ++;
         Map <String, Object> data = new HashMap<String, Object>();
