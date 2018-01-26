@@ -11,7 +11,7 @@ public class HandshakeHeader extends ClientEndpointConfig.Configurator {
 
     @Override
     public void beforeRequest(Map<String, List<String>> headers) {
-        JSONObject config = (JSONObject) Config.read("Token");
+        JSONObject config = (JSONObject) Config.read("headers");
         Set<String> keys = config.keySet();
         for(String key : keys) {
             String value = config.get(key).toString().trim();
