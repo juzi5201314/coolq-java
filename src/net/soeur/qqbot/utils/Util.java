@@ -3,7 +3,7 @@ package net.soeur.qqbot.utils;
 public class Util {
 
     public static boolean isLinux() {
-        return System.getProperty("utils.name").toLowerCase().contains("linux");
+        return System.getProperty("os.name").toLowerCase().contains("linux");
     }
 
     public static String getMethodName() {
