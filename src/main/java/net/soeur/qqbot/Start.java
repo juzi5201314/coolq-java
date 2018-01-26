@@ -25,7 +25,6 @@ public class Start {
         registerCommands();
         //加载模块
         loadModel();
-
         Scanner scanner = new Scanner(System.in);
         while (true) {
             String cmd = scanner.nextLine();
@@ -40,7 +39,7 @@ public class Start {
     }
 
     private static void initListener() {
-        if (!Config.read("websocket_clinet").toString().isEmpty()) {
+        if (!Config.read("websocket_clinet").toString().trim().equals("")) {
             try{
                 WebSocketClient.Client.start(Config.read("websocket_listen").toString().trim(), "listener");
                 if (Config.read("websocket_api_persistent_connections").equals("true"))

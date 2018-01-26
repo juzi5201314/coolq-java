@@ -70,7 +70,7 @@ public class WebSocketClient {
 
     public static class Client {
 
-        private static Map<String, WebSocketClient> clients = new HashMap<>();
+        private static Map<String, WebSocketClient> clients = new HashMap<String, WebSocketClient>();
 
         public static WebSocketClient start(String url, String clinetName) throws URISyntaxException, IOException, DeploymentException {
             long st = System.currentTimeMillis();

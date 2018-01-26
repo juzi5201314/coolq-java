@@ -13,7 +13,7 @@ import java.util.Set;
 
 public class Listener {
 
-    private static Map<Listen, List<Events>> listeners = new HashMap<>();
+    private static Map<Listen, List<Events>> listeners = new HashMap<Listen, List<Events>>();
 
     public static void call(String json) {
         try {

@@ -17,7 +17,7 @@ public class Api {
     }
 
     public static Map<String, Object> get_stranger_info(String user_id) {
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put("user_id", user_id);
         run("get_stranger_info", map);
         return null;

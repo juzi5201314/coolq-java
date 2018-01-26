@@ -7,7 +7,7 @@ public class Command {
 
     final private static String COMMAND_NOT_FOUND = "命令不存在";
 
-    private static Map<String, CommandReceiver> commands = new HashMap<>();
+    private static Map<String, CommandReceiver> commands = new HashMap<String, CommandReceiver>();
 
     public static void exec(String command, CommandSender sender) {
         String[] args = getArgs(command);
