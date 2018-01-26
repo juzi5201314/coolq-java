@@ -15,8 +15,6 @@ import java.util.Map;
 
 @ClientEndpoint(
         configurator = HandshakeHeader.class,
-        decoders = {OjbectDecoder.class},
-        encoders = {OjbectEncoder.class},
         subprotocols={"subprotocol1"}
 )
 public class WebSocketClient {
