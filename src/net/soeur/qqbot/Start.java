@@ -8,7 +8,9 @@ import net.soeur.qqbot.command.defaults.StatusCommand;
 import net.soeur.qqbot.command.sender.SenderAdmin;
 import net.soeur.qqbot.listen.Listener;
 import net.soeur.qqbot.message.Logger;
+import net.soeur.qqbot.model.Model;
 import net.soeur.qqbot.websocket.WebSocketClient;
+import org.json.JSONObject;
 
 import java.util.Scanner;
 
@@ -21,6 +23,8 @@ public class Start {
         initListener();
         //注册指令
         registerCommands();
+        //加载模块
+        loadModel();
 
         Scanner scanner = new Scanner(System.in);
         while (true) {
@@ -30,13 +34,6 @@ public class Start {
             else if (Command.isCommand(cmd))
             {
                 Command.exec(cmd, new SenderAdmin());
-                /*
-                Pattern pattern = Pattern.compile("\"([\\s\\S]*)\"");
-                Matcher matcher = pattern.matcher(arg);
-                matcher.find();
-                Logger.debug(matcher.group(1));
-                */
-                //Api.run(cmd.substring(2).trim(), new JSONObject(arg).toMap());
             }
         }
 
@@ -53,12 +50,27 @@ public class Start {
             }
         }else
             Logger.error("找不到合适的监听途径，监听器启动失败");
-        Listener.init();
     }
 
     private static void registerCommands() {
         Command.register("status", new StatusCommand());
         Command.register("exec", new ExecCommand());
+    }
+
+    private static void loadModel() {
+        JSONObject jsonObject = (JSONObject) Config.read("model");
+        for (String name : jsonObject.keySet()) {
+            try {
+                Class<? extends Model> subclass = Class.forName(jsonObject.getString(name)).asSubclass(Model.class);
+                Model model = subclass.newInstance();
+            }catch (ClassNotFoundException e) {
+                Logger.warning("无法加载模块 " + name + "，原因：找不到主类" + e.getMessage());
+            }catch (IllegalAccessException e) {
+                Logger.throwException(e);
+            }catch (InstantiationException e) {
+                Logger.throwException(e);
+            }
+        }
     }
 
 }
