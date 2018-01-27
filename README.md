@@ -55,3 +55,5 @@
  5，执行 java -jar qqbot.jar  
 
 # 编译jar
+mvn clean  
+mvn package
