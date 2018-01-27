@@ -15,7 +15,7 @@
 * 在windows 7 与centos6.9上测试通过
 
 # 配置文件
-格式根据config.json文件，配置项说明:
+具体查看[config.json](https://github.com/juzi5201314/coolq-java/blob/master/config.json)文件，配置项说明:
 * websocket_clinet - 开启websocket客户端功能(默认:true)
 * websocket_listen - websocket监听url，接收事件上报使用的
 * websocket_api - websocket api url，调用api使用的
