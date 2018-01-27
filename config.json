@@ -1,0 +1,11 @@
+{
+    "websocket_clinet":"true",
+    "websocket_listen":"ws://0.0.0.0:6700/event/",
+    "websocket_api":"ws://0.0.0.0:6700/api/",
+    "websocket_api_persistent_connections":"true",
+    "headers":{
+        "Authorization":"Token xxxxx"
+    },
+    "model":{},
+    "debug":"true"
+}
