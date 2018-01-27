@@ -1,5 +1,7 @@
 package net.soeur.qqbot.utils;
 
+import net.soeur.qqbot.utils.sqlite.SqliteDB;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,6 +21,10 @@ public abstract class DataBase {
           return dbs;
      }
 
+     public static SqliteDB getSqliteDB(String name) {
+          return (SqliteDB) getDB(name);
+     }
+
      protected Connection connection;
      private Statement statement;
      protected String name;
@@ -26,6 +32,7 @@ public abstract class DataBase {
      public void connection() throws SQLException {
           dbs.put(getName(), this);
           statement = connection.createStatement();
+          connection.setAutoCommit(false);
      }
 
      public String getName() {

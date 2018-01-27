@@ -1,16 +1,13 @@
 package net.soeur.qqbot;
 
-import net.soeur.qqbot.api.Api;
 import net.soeur.qqbot.command.Command;
-import net.soeur.qqbot.command.CommandSender;
 import net.soeur.qqbot.command.defaults.ExecCommand;
+import net.soeur.qqbot.command.defaults.PowerCommand;
 import net.soeur.qqbot.command.defaults.StatusCommand;
 import net.soeur.qqbot.command.sender.SenderAdmin;
-import net.soeur.qqbot.listen.Listener;
 import net.soeur.qqbot.message.Logger;
 import net.soeur.qqbot.model.Model;
 import net.soeur.qqbot.utils.DataBase;
-import net.soeur.qqbot.utils.SqlDB;
 import net.soeur.qqbot.utils.sqlite.SqliteDB;
 import net.soeur.qqbot.websocket.WebSocketClient;
 import org.json.JSONObject;
@@ -28,10 +25,10 @@ public class Start {
         initListener();
         //注册指令
         registerCommands();
-        //加载模块
-        loadModel();
         //打开sqlite连接
         openSqliteDB();
+        //加载模块
+        loadModel();
 
         Scanner scanner = new Scanner(System.in);
         while (true) {
@@ -50,8 +47,16 @@ public class Start {
     private static void openSqliteDB() {
         new File(SqliteDB.DATA_PATH).mkdirs();
         try {
+            //数据库power，用于存储用户权限信息
             SqliteDB userPowerDB = new SqliteDB("power");
             userPowerDB.connection();
+            //如果没有表USER，则创建表
+            if (!userPowerDB.query("SELECT * FROM sqlite_master WHERE name='USER'").next())
+                 //id为用户qq号码，power为权限
+                 userPowerDB.exec("CREATE TABLE USER(" +
+                    "ID TEXT NOT NULL," +
+                    "POWER TEXT NOT nULL" +
+                    ")");
         }catch (SQLException e) {
             Logger.throwException(e);
         }
@@ -84,6 +89,7 @@ public class Start {
     private static void registerCommands() {
         Command.register("status", new StatusCommand());
         Command.register("exec", new ExecCommand());
+        Command.register("power", new PowerCommand());
     }
 
     private static void loadModel() {
@@ -92,6 +98,7 @@ public class Start {
             try {
                 Class<? extends Model> subclass = Class.forName(jsonObject.getString(name)).asSubclass(Model.class);
                 Model model = subclass.newInstance();
+                model.start();
             }catch (ClassNotFoundException e) {
                 Logger.warning("无法加载模块 " + name + "，原因：找不到主类" + e.getMessage());
             }catch (IllegalAccessException e) {
