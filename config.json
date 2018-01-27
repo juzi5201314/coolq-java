@@ -1,0 +1,13 @@
+{
+    "websocket_clinet":"true",
+    "websocket_listen":"ws://45.77.244.80:5701/event/",
+    "websocket_api":"ws://45.77.244.80:5701/api/",
+    "websocket_api_persistent_connections":"true",
+    "headers":{
+        "Authorization":"Token juzi5201314"
+    },
+    "model":{
+        "test":"net.soeur.qqbot.test.Main"
+    },
+    "debug":"true"
+}
