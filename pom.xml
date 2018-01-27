@@ -9,7 +9,7 @@
     <version>0.0.11</version>
 
     <name>coolq-java</name>
-    <packaging>jar</packaging>
+    <packaging>jar</packaging> 
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-api -->
