@@ -6,6 +6,7 @@ import java.util.Map;
 public class Command {
 
     final private static String COMMAND_NOT_FOUND = "命令不存在";
+    final public static String NOT_POWER = "你没有权限";
 
     private static Map<String, CommandReceiver> commands = new HashMap<String, CommandReceiver>();
 

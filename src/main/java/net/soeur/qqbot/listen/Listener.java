@@ -39,7 +39,8 @@ public class Listener {
 
                  //指令
                 if (Command.isCommand(json.getString("message"))) {
-                     Command.exec(json.getString("message"), new SenderUser(json.get("user_id").toString()));
+                     Command.exec(json.getString("message"), new SenderUser(json.get("user_id").toString(), json.isNull("group_id") ? null
+                             : json.getString("group_id"), json.isNull("discuss_id") ? null : json.getString("discuss_id")));
                      return;
                 }
 
