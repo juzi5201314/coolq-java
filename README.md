@@ -36,19 +36,22 @@
 …  
 
 "model":{  
+
 "模块名":"模块主类",
+
 "TestModel":"net.soeur.test.Main"
+
 },  
 
 …
   
 # 使用
-* 请确保机器安装了java 8
- 1，在酷q下载并启动http-api插件。
- 2，启用http-api插件的websocket功能并填写url。
- 3，在[这里](https://github.com/juzi5201314/coolq-java/releases)下载最新版的qqbot.jar并放入随便一个文件夹（或直接用wget下载）
- 4，配置config.json
- 4，命令行cd到存放qqbot.jar的目录
- 5，执行 java -jar qqbot.jar
+* 请确保机器安装了java 8  
+ 1，在酷q下载并启动http-api插件。  
+ 2，启用http-api插件的websocket功能并填写url。  
+ 3，在[这里](https://github.com/juzi5201314/coolq-java/releases)下载最新版的qqbot.jar并放入随便一个文件夹（或直接用wget下载）  
+ 4，配置config.json  
+ 4，命令行cd到存放qqbot.jar的目录  
+ 5，执行 java -jar qqbot.jar  
 
 # 编译jar
