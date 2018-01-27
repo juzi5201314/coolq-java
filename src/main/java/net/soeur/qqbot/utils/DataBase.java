@@ -1,7 +1,9 @@
 package net.soeur.qqbot.utils;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,10 +20,12 @@ public abstract class DataBase {
      }
 
      protected Connection connection;
+     private Statement statement;
      protected String name;
 
      public void connection() throws SQLException {
           dbs.put(getName(), this);
+          statement = connection.createStatement();
      }
 
      public String getName() {
@@ -29,7 +33,17 @@ public abstract class DataBase {
      }
 
      public void close() throws SQLException {
+          statement.close();
           connection.close();
+     }
+
+     public void exec(String sql) throws SQLException {
+          statement.executeUpdate(sql);
+          connection.commit();
+     }
+
+     public ResultSet query(String sql) throws SQLException {
+          return statement.executeQuery(sql);
      }
 
 }
