@@ -1,9 +1,9 @@
 # coolq-java
 基于websocket的java酷q插件
 
-本插件依赖[coolq-http-api](https://github.com/richardchien/coolq-http-api)插件，[获取并使用此插件](https://richardchien.github.io/coolq-http-api/3.4/#/)
-
 [![Build Status](https://travis-ci.org/juzi5201314/coolq-java.svg?branch=master)](https://travis-ci.org/juzi5201314/coolq-java)
+
+本插件依赖[coolq-http-api](https://github.com/richardchien/coolq-http-api)插件，[获取并使用此插件](https://richardchien.github.io/coolq-http-api/3.4/#/)
 
 适用于：
 * 酷q与本程序运行在同一台机器上的或酷q机器有公网ip的（运行程序的机器可有可无）
