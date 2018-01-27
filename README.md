@@ -3,6 +3,8 @@
 
 本插件依赖[coolq-http-api](https://richardchien.github.io/coolq-http-api/3.4/#/)插件
 
+[![Build Status](https://travis-ci.org/juzi5201314/coolq-java.svg?branch=master)](https://travis-ci.org/juzi5201314/coolq-java)
+
 # 配置文件
 格式根据config.json文件，配置项说明:
 * websocket_clinet - 开启websocket客户端功能(默认:true)
