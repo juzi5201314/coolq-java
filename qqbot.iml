@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+<module type="JAVA_MODULE" version="4">
+  <component name="ExternalSystem" externalSystem="Maven" />
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
@@ -7,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/lib" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -17,5 +19,15 @@
     <orderEntry type="library" name="tomcat-util" level="project" />
     <orderEntry type="library" name="tomcat-websocket" level="project" />
     <orderEntry type="library" name="websocket-api" level="project" />
+    <orderEntry type="library" name="sqlite-jdbc" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-api:9.0.2" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-servlet-api:9.0.2" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-util:9.0.2" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-juli:9.0.2" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-websocket:9.0.2" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-websocket-api:9.0.2" level="project" />
+    <orderEntry type="library" name="Maven: javax.websocket:javax.websocket-client-api:1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.json:json:20171018" level="project" />
+    <orderEntry type="library" name="Maven: org.xerial:sqlite-jdbc:3.21.0.1" level="project" />
   </component>
 </module>

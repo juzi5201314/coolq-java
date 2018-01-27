@@ -9,9 +9,14 @@ import net.soeur.qqbot.command.sender.SenderAdmin;
 import net.soeur.qqbot.listen.Listener;
 import net.soeur.qqbot.message.Logger;
 import net.soeur.qqbot.model.Model;
+import net.soeur.qqbot.utils.DataBase;
+import net.soeur.qqbot.utils.SqlDB;
+import net.soeur.qqbot.utils.sqlite.SqliteDB;
 import net.soeur.qqbot.websocket.WebSocketClient;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Start {
@@ -25,6 +30,9 @@ public class Start {
         registerCommands();
         //加载模块
         loadModel();
+        //打开sqlite连接
+        openSqliteDB();
+
         Scanner scanner = new Scanner(System.in);
         while (true) {
             String cmd = scanner.nextLine();
@@ -35,7 +43,29 @@ public class Start {
                 Command.exec(cmd, new SenderAdmin());
             }
         }
+        //程序停止
+        onStop();
+    }
 
+    private static void openSqliteDB() {
+        new File(SqliteDB.DATA_PATH).mkdirs();
+        try {
+            SqliteDB userPowerDB = new SqliteDB("power");
+            userPowerDB.connection();
+        }catch (SQLException e) {
+            Logger.throwException(e);
+        }
+    }
+
+    private static void onStop() {
+        try {
+            for (String clientName : WebSocketClient.Client.getClients().keySet())
+                WebSocketClient.Client.getClient(clientName).close();
+            for (String dbName : DataBase.getDBs().keySet())
+                DataBase.getDB(dbName).close();
+        }catch (Exception e) {
+            Logger.throwException(e);
+        }
     }
 
     private static void initListener() {

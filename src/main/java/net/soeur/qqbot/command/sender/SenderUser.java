@@ -6,7 +6,7 @@ import net.soeur.qqbot.command.CommandSender;
 public class SenderUser implements CommandSender{
 
     private String user_id;
-    private UserLevel level;
+    private UserPower power;
 
     public SenderUser(String user_id) {
         this.user_id = user_id;
@@ -16,15 +16,15 @@ public class SenderUser implements CommandSender{
         return user_id;
     }
 
-    public UserLevel getLevel() {
-        return level;
+    public UserPower getPower() {
+        return power;
     }
 
     public void sendMessage(String message) {
         Api.send_private_msg(message, user_id);
     }
 
-    public enum UserLevel {
+    public enum UserPower {
 
     }
 

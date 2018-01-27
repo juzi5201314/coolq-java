@@ -30,6 +30,10 @@ public class WebSocketClient {
         this.tagerUrl = tagerUrl;
     }
 
+    public String getName() {
+        return name;
+    }
+
     @OnOpen
     public void open(Session session){
         this.session = session;
@@ -37,7 +41,7 @@ public class WebSocketClient {
     }
 
     @OnMessage
-    public synchronized void onMessage(String message){
+    public void onMessage(String message){
         if (name.contains("listener"))
              Listener.call(message);
         else if (name.contains("api")){
@@ -53,7 +57,6 @@ public class WebSocketClient {
     @OnClose
     public void onClose() throws Exception {
         Logger.debug("Websocket closed from " + tagerUrl);
-        Client.close(this);
     }
 
 
@@ -94,14 +97,10 @@ public class WebSocketClient {
             return clients.get(name);
         }
 
-        public static Collection<WebSocketClient> getClients() {
-             return clients.values();
+        public static Map<String, WebSocketClient> getClients() {
+             return clients;
         }
 
-        public static void close(WebSocketClient client) throws IOException {
-            Collection<WebSocketClient> collection = clients.values();
-            collection.remove(client);
-        }
     }
 
 }
