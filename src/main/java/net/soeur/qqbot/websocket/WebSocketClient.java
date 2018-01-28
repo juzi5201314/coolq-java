@@ -22,15 +22,15 @@ public class WebSocketClient {
 
     private Session session;
     private String name;
-    private String tagerUrl;
+    private String url;
 
-    public WebSocketClient(String name, String tagerUrl) {
-        this(name, tagerUrl, new String[]{});
+    public WebSocketClient(String name, String url) {
+        this(name, url, new String[]{});
     }
 
     public WebSocketClient(String name, String tagerUrl, String[] protocols) {
         this.name = name;
-        this.tagerUrl = tagerUrl;
+        this.url = tagerUrl;
         try {
             ClientEndpoint clientEndpoint = this.getClass().getAnnotation(ClientEndpoint.class);
             InvocationHandler invocationHandler = Proxy.getInvocationHandler(clientEndpoint);
@@ -48,10 +48,14 @@ public class WebSocketClient {
         return name;
     }
 
+    public String getUrl() {
+         return url;
+    }
+
     @OnOpen
     public void open(Session session){
         this.session = session;
-        Logger.debug("session " + session.getId() + " 成功连接到 " + tagerUrl);
+        Logger.debug("session " + session.getId() + " 成功连接到 " + url);
     }
 
     @OnMessage
@@ -70,7 +74,7 @@ public class WebSocketClient {
 
     @OnClose
     public void onClose() throws Exception {
-        Logger.debug("Websocket closed from " + tagerUrl);
+        Logger.debug("Websocket closed from " + url);
     }
 
 
@@ -94,13 +98,13 @@ public class WebSocketClient {
         private static Map<String, WebSocketClient> clients = new HashMap<String, WebSocketClient>();
 
         public static WebSocketClient start(String url, String clinetName) throws URISyntaxException, IOException, DeploymentException {
-            return start(url, new WebSocketClient(clinetName, url));
+            return start(new WebSocketClient(clinetName, url));
         }
 
-        public static WebSocketClient start(String url, WebSocketClient client) throws URISyntaxException, IOException, DeploymentException {
+        public static WebSocketClient start(WebSocketClient client) throws URISyntaxException, IOException, DeploymentException {
             long st = System.currentTimeMillis();
             WebSocketContainer conmtainer = ContainerProvider.getWebSocketContainer();
-            conmtainer.connectToServer(client, new URI(url));
+            conmtainer.connectToServer(client, new URI(client.getUrl()));
             clients.put(client.getName(), client);
             Logger.info("websocket client " + Color.add(client.getName(), Color.TextColor.BLACK, Color.BgColor.GREEN) + " 成功启动, 耗时 " + (System.currentTimeMillis() - st) + "ms");
             return client;
@@ -115,5 +119,4 @@ public class WebSocketClient {
         }
 
     }
-
 }
