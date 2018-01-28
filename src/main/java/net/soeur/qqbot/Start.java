@@ -13,6 +13,9 @@ import net.soeur.qqbot.websocket.WebSocketClient;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -28,7 +31,7 @@ public class Start {
         //打开sqlite连接
         openSqliteDB();
         //加载模块
-        loadModel();
+        loadModels();
 
         Scanner scanner = new Scanner(System.in);
         while (true) {
@@ -92,20 +95,45 @@ public class Start {
         Command.register("power", new PowerCommand());
     }
 
-    private static void loadModel() {
+    private static void loadModels() {
         JSONObject jsonObject = (JSONObject) Config.read("model");
+        File modelPath = new File(Model.BASE_PATH);
+        modelPath.mkdirs();
         for (String name : jsonObject.keySet()) {
             try {
-                Class<? extends Model> subclass = Class.forName(jsonObject.getString(name)).asSubclass(Model.class);
-                Model model = subclass.newInstance();
-                model.start();
-            }catch (ClassNotFoundException e) {
-                Logger.warning("无法加载模块 " + name + "，原因：找不到主类" + e.getMessage());
-            }catch (IllegalAccessException e) {
-                Logger.throwException(e);
-            }catch (InstantiationException e) {
+                URLClassLoader loader = new URLClassLoader(new URL[]{new URL("file:" + modelPath.getCanonicalPath() + File.separator + name + ".jar")});
+                Class clazz = loader.loadClass(jsonObject.getString(name));
+                loadModel(clazz.newInstance());
+            } catch (ClassNotFoundException ce) {
+                try {
+                    loadModel(name, jsonObject.getString(name), modelPath);
+                } catch (IllegalAccessException e) {
+                    Logger.throwException(e);
+                } catch (InstantiationException e) {
+                    Logger.throwException(e);
+                } catch (IOException e) {
+                    Logger.throwException(e);
+                }
+            } catch (Exception e) {
                 Logger.throwException(e);
             }
+        }
+    }
+
+    public static void loadModel(Object object) {
+        if (object instanceof Model)
+            ((Model) object).start();
+        else
+            Logger.warning(object.getClass().toString() + " 不是一个模块");
+    }
+
+    public static void loadModel(String name, String Mainclass, File modelPath) throws IllegalAccessException, InstantiationException, IOException {
+        try {
+            URLClassLoader loader = new URLClassLoader(new URL[]{new URL("file:" + modelPath.getCanonicalPath() + File.separator)});
+            Class clazz = loader.loadClass(Mainclass);
+            loadModel(clazz.newInstance());
+        } catch (ClassNotFoundException e) {
+            Logger.warning("无法加载模块 " + name + "，原因：找不到主类" + e.getMessage());
         }
     }
 
