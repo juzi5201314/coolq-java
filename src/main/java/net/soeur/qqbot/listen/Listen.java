@@ -8,6 +8,6 @@ public interface Listen {
 
      Model getModel();
 
-     void onEvent(Events events, Map args);
+     void onEvent(Events events, Map<String, Object> args);
 
 }
