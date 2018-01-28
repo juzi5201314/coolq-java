@@ -9,25 +9,39 @@ import org.json.JSONPointerException;
 
 import javax.websocket.*;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-@ClientEndpoint(
-        configurator = HandshakeHeader.class,
-        subprotocols={"subprotocol1"}
-)
+@ClientEndpoint
 public class WebSocketClient {
 
     private Session session;
     private String name;
     private String tagerUrl;
 
-    public WebSocketClient(String name,  String tagerUrl) {
+    public WebSocketClient(String name, String tagerUrl) {
+        this(name, tagerUrl, new String[]{});
+    }
+
+    public WebSocketClient(String name, String tagerUrl, String[] protocols) {
         this.name = name;
         this.tagerUrl = tagerUrl;
+        try {
+            ClientEndpoint clientEndpoint = this.getClass().getAnnotation(ClientEndpoint.class);
+            InvocationHandler invocationHandler = Proxy.getInvocationHandler(clientEndpoint);
+            Field field = invocationHandler.getClass().getDeclaredField("memberValues");
+            field.setAccessible(true);
+            Map memberValues = (Map) field.get(invocationHandler);
+            memberValues.put("subprotocols", protocols);
+            memberValues.put("configurator", HandshakeHeader.class);
+        }catch (Exception e) {
+            Logger.throwException(e);
+        }
     }
 
     public String getName() {
@@ -69,10 +83,6 @@ public class WebSocketClient {
         session.getAsyncRemote().sendText(message);
     }
 
-    public void send(Map<String, Object> message) {
-        send(new JSONObject(message).toString());
-    }
-
     public void close() throws IOException {
         if(session.isOpen()){
             session.close();
@@ -84,12 +94,15 @@ public class WebSocketClient {
         private static Map<String, WebSocketClient> clients = new HashMap<String, WebSocketClient>();
 
         public static WebSocketClient start(String url, String clinetName) throws URISyntaxException, IOException, DeploymentException {
+            return start(url, new WebSocketClient(clinetName, url));
+        }
+
+        public static WebSocketClient start(String url, WebSocketClient client) throws URISyntaxException, IOException, DeploymentException {
             long st = System.currentTimeMillis();
             WebSocketContainer conmtainer = ContainerProvider.getWebSocketContainer();
-            WebSocketClient client = new WebSocketClient(clinetName, url);
             conmtainer.connectToServer(client, new URI(url));
-            clients.put(clinetName, client);
-            Logger.info("websocket client " + Color.add(clinetName, Color.TextColor.BLACK, Color.BgColor.GREEN) + " 成功启动, 耗时 " + (System.currentTimeMillis() - st) + "ms");
+            clients.put(client.getName(), client);
+            Logger.info("websocket client " + Color.add(client.getName(), Color.TextColor.BLACK, Color.BgColor.GREEN) + " 成功启动, 耗时 " + (System.currentTimeMillis() - st) + "ms");
             return client;
         }
 
