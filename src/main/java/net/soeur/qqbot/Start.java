@@ -23,7 +23,7 @@ public class Start {
 
     public static void main(String[] args) throws Exception {
         //初始化配置文件
-        Config.init();
+        Config.setConfig(new Config("config"));
         //初始化监听器
         initListener();
         //注册指令

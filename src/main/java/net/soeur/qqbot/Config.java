@@ -1,26 +1,59 @@
 package net.soeur.qqbot;
 
 import net.soeur.qqbot.message.Logger;
+import net.soeur.qqbot.utils.Util;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Config {
 
-    final private static String configName = "config";
-
-    private static JSONObject data;
+    private static Config config;
 
     public static Object read(String key) {
+        return config.get(key);
+    }
+
+    public static void setConfig(Config config) {
+        Config.config = config;
+    }
+
+    private String fileName;
+    private JSONObject data;
+    private File file;
+
+    public Config(String name, Map<String, Object> c) {
+         this.fileName = name;
+         this.file = new File(Util.BASE_DIR + getFileName() + ".json");
+         if (!file.exists()) {
+            try {
+                file.createNewFile();
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
+                fileOutputStream.write(new JSONObject(c).toString().getBytes());
+                fileOutputStream.close();
+            }catch (IOException e) {
+                Logger.throwException(e);
+            }
+        }
+         init();
+    }
+
+    public Config(String name) {
+        this(name, new HashMap<>());
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public Object get(String key) {
         return data.get(key);
     }
 
-    public static void init() {
+    public void init() {
         try {
-            File file = new File((new File("")).getCanonicalPath() + File.separator + configName + ".json");
             if (!file.exists() || !file.isFile() || !file.canRead()) {
                 Logger.error("找不到配置文件");
                 throw new FileNotFoundException("Config file not found");

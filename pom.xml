@@ -6,7 +6,7 @@
 
     <groupId>net.soeur.qqbot</groupId>
     <artifactId>qqbot</artifactId>
-    <version>0.0.11</version>
+    <version>1.0.0</version>
 
     <name>coolq-java</name>
     <packaging>jar</packaging> 
