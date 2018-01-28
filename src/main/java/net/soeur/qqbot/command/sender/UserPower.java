@@ -1,6 +1,12 @@
 package net.soeur.qqbot.command.sender;
 
-import net.soeur.qqbot.websocket.WebSocketClient;
+import net.soeur.qqbot.message.Logger;
+import net.soeur.qqbot.utils.DataBase;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public enum UserPower {
      OWNER("owner", 5),
@@ -41,6 +47,19 @@ public enum UserPower {
                return WARDEN;
           else
                return USER;
+     }
+
+     public static List<String> getUsers(UserPower power) {
+          try {
+               ResultSet resultSet = DataBase.getSqliteDB("power").query("SELECT * FROM USER WHERE POWER='" + power.toString() + "'");
+               List<String> list = new ArrayList<>();
+               while (resultSet.next())
+                    list.add(resultSet.getString("ID"));
+               return list;
+          }catch (SQLException e) {
+               Logger.throwException(e);
+          }
+          return null;
      }
 
 }
