@@ -70,7 +70,7 @@ public class Api {
     }
 
     public static long send_group_msg(final String message, final String group_id) {
-        return send_private_msg(message, group_id, false);
+        return send_group_msg(message, group_id, false);
     }
 
     public static long send_discuss_msg(final String message, final String discuss_id, final boolean auto_escape) {
@@ -84,7 +84,7 @@ public class Api {
     }
 
     public static long send_discuss_msg(final String message, final String discuss_id) {
-        return send_private_msg(message, discuss_id, false);
+        return send_discuss_msg(message, discuss_id, false);
     }
 
     public static long del_msg(final String message_id) {

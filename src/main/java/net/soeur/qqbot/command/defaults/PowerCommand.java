@@ -24,13 +24,13 @@ public class PowerCommand implements CommandReceiver {
                switch (args[1]) {
                     case "all":
                          ResultSet resultSet = sqliteDB.query("SELECT * FROM USER");
-                         StringBuilder stringBuilder = new StringBuilder("权限列表：\n");
+                         StringBuilder stringBuilder = new StringBuilder("权限列表:");
                          while (resultSet.next()){
                               stringBuilder
+                                      .append("\n")
                                       .append(resultSet.getString("ID"))
                                       .append(" => ")
-                                      .append(resultSet.getString("POWER"))
-                                      .append("\n");
+                                      .append(resultSet.getString("POWER"));
                          }
                          sender.reply(stringBuilder.toString());
                          break;

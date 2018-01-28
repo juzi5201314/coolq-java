@@ -2,10 +2,13 @@ package net.soeur.qqbot.command.defaults;
 
 import net.soeur.qqbot.command.CommandReceiver;
 import net.soeur.qqbot.command.CommandSender;
+import net.soeur.qqbot.command.sender.UserPower;
 
 public class StatusCommand implements CommandReceiver {
 
     public void exec(CommandSender sender, String[] args) {
+        if (sender.getPower().under(UserPower.WARDEN))
+            return;
         StringBuffer info = new StringBuffer();
         Runtime runtime = Runtime.getRuntime();
         long ts = System.nanoTime();
@@ -30,7 +33,7 @@ public class StatusCommand implements CommandReceiver {
                 .append("查询耗时：")
                 .append((System.nanoTime() - ts) / 1000000.00)
                 .append("ms");
-        sender.sendMessage(info.toString());
+        sender.reply(info.toString());
     }
 
 }
